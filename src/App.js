@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { render } from "react-dom";
+import Todo from "./Todo";
 const App = () => {
   return (
-    <div>
+    <div className="container mx-auto">
       <h1>#todo</h1>
+      <Todo />
     </div>
   );
 };
