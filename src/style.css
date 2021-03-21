@@ -1,0 +1,105 @@
+:root {
+  --primary-color: rgb(126, 95, 95);
+  --hover-color: rgb(63, 0, 0);
+  --focus-color: #2962ff;
+  --error-color: red;
+  --secondary-color: rgb(116, 116, 116);
+}
+
+.inputParent {
+}
+
+.inputParent.fullWidth input {
+  display: block;
+  width: calc(100% - 34px);
+}
+.inputParent.sm input {
+  padding: 15px 20px;
+}
+.inputParent.md input {
+  padding: 18px 40px;
+}
+
+.inputParent label {
+  display: block;
+  margin: 5px 0px;
+}
+.inputParent label.aboveInput span {
+  display: block;
+}
+.inputParent label.aboveInput {
+  color: var(--primary-color);
+}
+.inputParent label.belowInput {
+  font-size: 0.9em;
+  color: var(--secondary-color);
+}
+.inputParent input {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid var(--primary-color);
+}
+
+.inputParent textarea {
+  resize: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid var(--primary-color);
+}
+
+.inputParent:hover input {
+  border-color: var(--hover-color);
+}
+.inputParent input:focus {
+  border-color: var(--focus-color);
+}
+.inputParent input:focus + label {
+  color: var(--focus-color);
+}
+.inputParent:hover textarea {
+  border-color: var(--hover-color);
+}
+.inputParent textarea:focus {
+  border-color: var(--focus-color);
+}
+.inputParent textarea:focus + label {
+  color: var(--focus-color);
+}
+.inputParent label.aboveInput:focus-within {
+  color: var(--focus-color);
+}
+.inputParent label.aboveInput:focus-within input {
+  border-color: var(--focus-color);
+  color: var(--focus-color);
+}
+.inputParent label.aboveInput:focus-within textarea {
+  border-color: var(--focus-color);
+  color: var(--focus-color);
+}
+.inputParent label.error.aboveInput:hover {
+  color: var(--hover-color);
+}
+.inputParent label.error.aboveInput:focus-within {
+  color: var(--error-color);
+}
+
+.inputParent label.error {
+  color: var(--error-color);
+}
+
+*:focus {
+  outline: 0 !important;
+}
+
+/* demo */
+
+.codeText {
+  margin: 20px;
+  font-family: monospace;
+}
+.codeText::before {
+  content: "<";
+}
+.codeText::after {
+  content: ">";
+}
