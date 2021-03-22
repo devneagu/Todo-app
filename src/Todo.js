@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
-import TodoContainer from "./TodoContainer";
 import TodoForm from "./TodoForm";
 import TodoElement from "./TodoElement";
 
-const todoComponent = () => {
+const TodoComponent = () => {
   const [storedTodo, setStoredTodo] = useState(
     JSON.parse(localStorage.getItem("storedTodo")) || []
   );
 
-  const [dataFiltered, setDataFiltered] = useState(storedTodo);
   const [toggle, setToggle] = useState("All");
   const FILTER_MAP = {
     All: () => true,
     Active: (task) => !task.completed,
     Completed: (task) => task.completed,
   };
-  const FILTER_NAMES = Object.keys(FILTER_MAP);
 
+  useEffect(() => {
+    localStorage.setItem("storedTodo", JSON.stringify(storedTodo));
+  }, [storedTodo]);
   function addTodo(text) {
     const dataTodo = [
       ...storedTodo,
@@ -26,29 +26,25 @@ const todoComponent = () => {
         completed: false,
       },
     ];
-    localStorage.setItem("storedTodo", JSON.stringify(dataTodo));
     setStoredTodo(dataTodo);
-    setDataFiltered(dataTodo);
   }
 
-  function updateElement(itemIndex, item) {
-    const editedTaskList = storedTodo.map((task, index) => {
-      if (index === itemIndex) {
-        return { ...task, text: item.text };
+  function updateElement(item, text) {
+    const editedTaskList = storedTodo.map((task) => {
+      if (task.createdAt === item.createdAt) {
+        return { ...task, text: text };
       }
       return task;
     });
-    localStorage.setItem("storedTodo", JSON.stringify(editedTaskList));
     setStoredTodo(editedTaskList);
   }
-  function checkedElement(itemIndex, item) {
-    const editedTaskList = storedTodo.map((task, index) => {
-      if (index === itemIndex) {
+  function checkedElement(item) {
+    const editedTaskList = storedTodo.map((task) => {
+      if (task.createdAt === item.createdAt) {
         return { ...task, completed: !task.completed };
       }
       return task;
     });
-    localStorage.setItem("storedTodo", JSON.stringify(editedTaskList));
     setStoredTodo(editedTaskList);
   }
 
@@ -95,7 +91,7 @@ const todoComponent = () => {
       <TodoForm addTodo={addTodo} />
       <div id="list">
         {storedTodo.length === 0 ? (
-          <h1>You're all done here</h1>
+          <h1>You are all done here</h1>
         ) : (
           storedTodo
             .filter(FILTER_MAP[toggle])
@@ -106,4 +102,4 @@ const todoComponent = () => {
   );
 };
 
-export default todoComponent;
+export default TodoComponent;

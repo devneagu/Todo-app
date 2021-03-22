@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const TodoElement = function TodoElement({
   item,
@@ -6,12 +6,11 @@ const TodoElement = function TodoElement({
   checkedElement,
   updateElement,
 }) {
-  const [textValue, setTextValue] = useState(item.text);
   return (
-    <form key={index}>
+    <form key={item.createdAt}>
       <input
         className="inputCheckbox"
-        onChange={() => checkedElement(index, item)}
+        onChange={() => checkedElement(item)}
         type="checkbox"
         defaultChecked={item.completed}
       />
@@ -20,8 +19,7 @@ const TodoElement = function TodoElement({
         type="text"
         defaultValue={item.text}
         onChange={(e) => {
-          setTextValue(e.target.value);
-          updateElement(index, textValue);
+          updateElement(item, e.target.value);
         }}
       ></input>
     </form>
