@@ -1,30 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TodoContainer from "./TodoContainer";
-const todoComponent = () => {
-  const [toggle, setToggle] = useState("All");
-  const [storedTodo, setStoredTodo] = useState(
-    localStorage.getItem("storedTodo") || "[]"
-  );
-  console.log(storedTodo);
-  function addTodo() {
-    if (typeof storedTodo == "string") {
-      var dataTodo = JSON.parse(storedTodo);
-    } else {
-      var dataTodo = storedTodo;
-    }
-    console.log(dataTodo);
-    let element = document.querySelector("#todoinput");
-    if (element.value == "") return;
+import TodoForm from "./TodoForm";
+import TodoElement from "./TodoElement";
 
-    dataTodo.push({
-      text: element.value,
-      createdAt: new Date().getTime(),
-      completed: 0,
-    });
+const todoComponent = () => {
+  const [storedTodo, setStoredTodo] = useState(
+    JSON.parse(localStorage.getItem("storedTodo")) || []
+  );
+
+  const [dataFiltered, setDataFiltered] = useState(storedTodo);
+  const [toggle, setToggle] = useState("All");
+  const FILTER_MAP = {
+    All: () => true,
+    Active: (task) => !task.completed,
+    Completed: (task) => task.completed,
+  };
+  const FILTER_NAMES = Object.keys(FILTER_MAP);
+
+  function addTodo(text) {
+    const dataTodo = [
+      ...storedTodo,
+      {
+        text: text,
+        createdAt: new Date().getTime(),
+        completed: false,
+      },
+    ];
     localStorage.setItem("storedTodo", JSON.stringify(dataTodo));
     setStoredTodo(dataTodo);
-    element.value = "";
+    setDataFiltered(dataTodo);
   }
+
+  function updateElement(itemIndex, item) {
+    const editedTaskList = storedTodo.map((task, index) => {
+      if (index === itemIndex) {
+        return { ...task, text: item.text };
+      }
+      return task;
+    });
+    localStorage.setItem("storedTodo", JSON.stringify(editedTaskList));
+    setStoredTodo(editedTaskList);
+  }
+  function checkedElement(itemIndex, item) {
+    const editedTaskList = storedTodo.map((task, index) => {
+      if (index === itemIndex) {
+        return { ...task, completed: !task.completed };
+      }
+      return task;
+    });
+    localStorage.setItem("storedTodo", JSON.stringify(editedTaskList));
+    setStoredTodo(editedTaskList);
+  }
+
+  function mapFunction(item, index) {
+    return (
+      <TodoElement
+        key={index}
+        item={item}
+        index={index}
+        checkedElement={checkedElement}
+        updateElement={updateElement}
+      />
+    );
+  }
+
   return (
     <div>
       <div className="flex mb-5">
@@ -53,11 +92,16 @@ const todoComponent = () => {
           <h3>Completed</h3>
         </div>
       </div>
-      <div className="text-center">
-        <input id="todoinput" type="text" placeholder="add details"></input>
-        <button onClick={addTodo}>Add</button>
+      <TodoForm addTodo={addTodo} />
+      <div id="list">
+        {storedTodo.length === 0 ? (
+          <h1>You're all done here</h1>
+        ) : (
+          storedTodo
+            .filter(FILTER_MAP[toggle])
+            .map((item, index) => mapFunction(item, index))
+        )}
       </div>
-      <TodoContainer dataTodo={storedTodo} />
     </div>
   );
 };
