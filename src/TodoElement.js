@@ -5,6 +5,7 @@ const TodoElement = function TodoElement({
   index,
   checkedElement,
   updateElement,
+  deleteItem,
 }) {
   return (
     <form key={item.createdAt}>
@@ -22,6 +23,9 @@ const TodoElement = function TodoElement({
           updateElement(item, e.target.value);
         }}
       ></input>
+      <span className="buttonX" onClick={() => deleteItem(item)}>
+        x
+      </span>
     </form>
   );
 };

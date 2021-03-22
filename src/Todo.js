@@ -47,6 +47,13 @@ const TodoComponent = () => {
     });
     setStoredTodo(editedTaskList);
   }
+  function deleteItem(item) {
+    console.log(item);
+    const remainingTasks = storedTodo.filter(
+      (task) => item.createdAt !== task.createdAt
+    );
+    setStoredTodo(remainingTasks);
+  }
 
   function mapFunction(item, index) {
     return (
@@ -56,6 +63,7 @@ const TodoComponent = () => {
         index={index}
         checkedElement={checkedElement}
         updateElement={updateElement}
+        deleteItem={deleteItem}
       />
     );
   }

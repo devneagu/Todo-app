@@ -92,7 +92,7 @@
   width: 10%;
 }
 .inputEditable {
-  width: calc(90% - 20px);
+  width: calc(80% - 20px);
   border: 1px solid white;
   margin-bottom: 10px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -100,4 +100,21 @@
 }
 .inputEditable:focus {
   border-bottom: 1px solid black;
+}
+
+.buttonX {
+  display: inline-block;
+  margin-left: 3%;
+  padding: 5px 10px;
+  border: 1px solid rgb(221, 221, 221);
+  background: white;
+  color: rgb(221, 221, 221);
+  cursor: pointer;
+  transition: 0.1;
+}
+.buttonX:hover,
+.buttonX:focus {
+  color: black;
+  background: rgb(251, 251, 251);
+  border: 1px solid rgb(110, 110, 110);
 }
